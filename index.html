@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máquina NFT</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+
+  <h1 class="text-4xl font-bold mb-8 text-purple-700">Máquina Expendedora de NFTs</h1>
+
+  <!-- Conectar MetaMask -->
+  <div class="mb-6 text-center">
+    <button onclick="connect()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded shadow">Conectar MetaMask</button>
+    <p id="account" class="mt-2 text-gray-700">No conectado</p>
+  </div>
+
+  <!-- Agregar NFT -->
+  <div class="bg-white p-6 rounded-lg shadow-md w-80 mb-6">
+    <h2 class="text-2xl font-semibold mb-4 text-purple-600">Agregar NFT</h2>
+    <input type="text" id="tokenAddress" placeholder="Dirección del contrato NFT" class="border rounded px-3 py-2 w-full mb-2">
+    <input type="number" id="tokenId" placeholder="Token ID" class="border rounded px-3 py-2 w-full mb-2">
+    <input type="text" id="costoProv" placeholder="ETH a pagar (ej: 0.01)" class="border rounded px-3 py-2 w-full mb-4">
+    <button onclick="agregarNFT()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full">Agregar NFT</button>
+  </div>
+
+  <!-- Comprar NFT -->
+  <div class="bg-white p-6 rounded-lg shadow-md w-80 mb-6">
+    <h2 class="text-2xl font-semibold mb-4 text-purple-600">Comprar NFT</h2>
+    <input type="text" id="costoCompra" placeholder="ETH a pagar (ej: 0.02)" class="border rounded px-3 py-2 w-full mb-4">
+    <button onclick="comprarNFT()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full">Comprar NFT</button>
+  </div>
+
+  <!-- Ver cola -->
+  <div class="bg-white p-6 rounded-lg shadow-md w-80">
+    <h2 class="text-2xl font-semibold mb-4 text-purple-600">NFTs en cola</h2>
+    <button onclick="verCola()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded mb-4 w-full">Actualizar</button>
+    <ul id="cola" class="list-disc pl-5 text-gray-700"></ul>
+  </div>
+
+  <script>
+    let contract;
+    let signer;
+
+    const contractAddress = "DIRECCION_DEL_CONTRATO"; 
+
+    const abi = [
+      {
+        "inputs":[{"internalType":"address","name":"_token","type":"address"},{"internalType":"uint256","name":"_tokenId","type":"uint256"}],
+        "name":"agregarNFT",
+        "outputs":[],
+        "stateMutability":"payable",
+        "type":"function"
+      },
+      {
+        "inputs":[],
+        "name":"comprarNFT",
+        "outputs":[],
+        "stateMutability":"payable",
+        "type":"function"
+      },
+      {
+        "inputs":[],
+        "name":"nftsEnCola",
+        "outputs":[{"internalType":"uint256","name":"","type":"uint256"}],
+        "stateMutability":"view",
+        "type":"function"
+      }
+    ];
+
+    async function connect() {
+      if(window.ethereum){
+        await ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner();
+        contract = new ethers.Contract(contractAddress, abi, signer);
+        const account = await signer.getAddress();
+        document.getElementById('account').innerText = "Conectado: " + account;
+      } else {
+        alert("Instala MetaMask!");
+      }
+    }
+
+    async function agregarNFT() {
+      const tokenAddress = document.getElementById('tokenAddress').value;
+      const tokenId = document.getElementById('tokenId').value;
+      const costoProv = document.getElementById('costoProv').value;
+
+      try {
+        const tx = await contract.agregarNFT(tokenAddress, tokenId, { value: ethers.utils.parseEther(costoProv) });
+        await tx.wait();
+        alert("NFT agregado a la máquina!");
+      } catch(e){
+        alert("Error: " + e.message);
+      }
+    }
+
+    async function comprarNFT() {
+      const costoCompra = document.getElementById('costoCompra').value;
+      try {
+        const tx = await contract.comprarNFT({ value: ethers.utils.parseEther(costoCompra) });
+        await tx.wait();
+        alert("NFT comprado!");
+      } catch(e){
+        alert("Error: " + e.message);
+      }
+    }
+
+    async function verCola() {
+      const cantidad = await contract.nftsEnCola();
+      const lista = document.getElementById('cola');
+      lista.innerHTML = '';
+      for(let i = 0; i < cantidad; i++){
+        const li = document.createElement('li');
+        li.innerText = "NFT #" + i;
+        lista.appendChild(li);
+      }
+    }
+  </script>
+</body>
+</html>
+
+<!-- Configuración
+- Cambia la variable `contractAddress` en `index.html` por la dirección de tu contrato desplegado.
+- Asegúrate de que el ABI en `index.html` coincida con tu contrato.-->
