@@ -8,483 +8,192 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <meta name="color-scheme" content="light dark" />
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-900">
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+
 <!-- Banner -->
 <div id="banner" class="hidden px-4 py-3 text-white text-sm font-medium" aria-live="polite"></div>
 
 <!-- Header -->
 <header class="px-4 md:px-8 py-5 border-b bg-white">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-    <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold">DN</div>
-        <div>
-        <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">DropNFT</h1>
-        <p class="text-xs text-gray-500 -mt-0.5">Máquina NFT para imágenes 32×32</p>
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-purple-600 flex items-center justify-center text-white font-bold">DN</div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-extrabold tracking-tight">DropNFT</h1>
+                <p class="text-xs text-gray-500 -mt-0.5">Máquina NFT para tus obras de arte</p>
+            </div>
         </div>
-    </div>
-    <div class="flex items-center gap-3">
-        <button id="btnConnect" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow transition">
-        Conectar wallet
-        </button>
-        <span id="account" class="text-sm text-gray-700">No conectado</span>
-    </div>
+        <div class="flex items-center gap-3">
+            <button id="btnVender" class="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded-lg shadow transition">
+                Vender
+            </button>
+            <button id="btnConnect" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow transition">
+                Conectar wallet
+            </button>
+        </div>
     </div>
 </header>
 
-<!-- Nav -->
-<nav class="px-4 md:px-8 bg-white/60 backdrop-blur border-b">
-    <div class="max-w-7xl mx-auto">
-    <ul class="flex flex-wrap gap-2 py-3">
-        <li><button data-page="index"   class="tab active bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg">Inicio</button></li>
-        <li><button data-page="agregar" class="tab bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg">Cargar</button></li>
-        <li><button data-page="comprar" class="tab bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg">Comprar</button></li>
-    </ul>
-    </div>
-</nav>
+<main class="flex-grow px-4 md:px-8 py-8">
+    <div class="max-w-3xl mx-auto space-y-8">
 
-<main class="px-4 md:px-8 py-8">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-    <!-- Main -->
-    <section id="content" class="lg:col-span-9 space-y-8">
+        <!-- Card principal -->
+        <section id="sectionPrincipal" class="bg-gradient-to-r from-purple-50 to-white border border-purple-100 shadow-sm rounded-2xl p-6 md:p-10 space-y-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                Conectá tu wallet. Vende tu obra. Vendé en segundos.
+            </h2>
+            <p class="text-gray-600 mb-4">
+                Convertí tu arte en un NFT único y ponelo a la venta en segundos. Comprá y sé dueño de piezas digitales exclusivas que nadie más tendrá.
+            </p>
 
-        <!-- INDEX -->
-        <div id="page-index" class="page">
-        <section class="bg-gradient-to-r from-purple-50 to-white border border-purple-100 shadow-sm rounded-2xl p-6 md:p-10">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
-                Conectá tu wallet. Cargá tu obra. Vendé en segundos.
-                </h2>
-                <p class="mt-3 text-gray-600">
-                Los artistas publican imágenes <strong>JPG 32×32</strong>. Los compradores adquieren al instante.
-                Los pagos se reparten automáticamente entre artista y dueño del contrato.
-                </p>
-                <div class="mt-6 flex flex-wrap gap-3">
-                <button id="ctaConnect" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg shadow">
-                    Conectar wallet
-                </button>
-                <button onclick="switchPage('agregar')" class="bg-gray-900 hover:bg-black text-white px-5 py-2.5 rounded-lg shadow">
-                    Cargar imagen
-                </button>
-                <button onclick="switchPage('comprar')" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 px-5 py-2.5 rounded-lg shadow-sm">
-                    Ir a comprar
-                </button>
-                </div>
-                <div class="mt-4 text-xs text-gray-500">
-                Requisitos: JPG exacto 32×32 píxeles. Subida con cargo del artista. Compras con reparto 50/50.
+            <!-- Imagen destacada -->
+            <div class="w-full h-64 md:h-96 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden relative">
+                <div id="featuredWrap" class="w-full h-full flex items-center justify-center">
+                    <span class="text-sm text-gray-400">Sin imágenes</span>
                 </div>
             </div>
-            <div class="rounded-2xl border border-gray-200 bg-white p-5">
-                <div class="text-sm text-gray-600 mb-2 flex items-center justify-between">
-                <span>Destacado</span>
-                <span class="inline-flex items-center gap-1 text-xs text-gray-500">
-                    En cola: <strong id="badgeQueue" class="ml-1">0</strong>
-                </span>
-                </div>
-                <div id="featuredWrapHome" class="aspect-square w-full rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
-                <span class="text-sm text-gray-400">No hay imágenes</span>
-                </div>
+
+            <!-- Botón Comprar -->
+            <div class="flex flex-col items-center">
+                <button id="btnComprar" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg shadow mb-2">
+                    Comprar pixel
+                </button>
+                <span class="text-xs text-gray-500">Siguientes obras en la cola:</span>
             </div>
-            </div>
+
+            <!-- Miniaturas de la cola -->
+            <div class="flex flex-wrap gap-2 justify-center" id="listaCola"></div>
         </section>
 
-        <section class="grid sm:grid-cols-3 gap-4">
-            <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <div class="text-sm font-semibold text-purple-700 mb-1">Cargos del artista</div>
-            <p class="text-sm text-gray-600">Al publicar, el artista paga una tarifa (ej. 1 ETH) que recibe el dueño del contrato.</p>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <div class="text-sm font-semibold text-purple-700 mb-1">Compra instantánea</div>
-            <p class="text-sm text-gray-600">El comprador paga (ej. 2 ETH). El sistema reparte: 50% artista, 50% dueño.</p>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-5">
-            <div class="text-sm font-semibold text-purple-700 mb-1">Cola transparente</div>
-            <p class="text-sm text-gray-600">Las imágenes se procesan en orden de llegada (FIFO). Sin sorpresas.</p>
-            </div>
-        </section>
-        </div>
-
-        <!-- AGREGAR -->
-        <div id="page-agregar" class="page hidden">
-        <div class="bg-white shadow rounded-2xl p-6 space-y-6">
-            <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-semibold">Cargar imagen</h2>
-            <div class="text-sm text-gray-500">Requisito: JPG 32×32</div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
+        <!-- Sección Cargar imagen -->
+        <section id="sectionCargar" class="bg-white shadow rounded-2xl p-6 space-y-6 hidden">
+            <h2 class="text-2xl font-semibold">Vender obra</h2>
             <div>
                 <label class="block text-sm font-medium mb-1">Archivo</label>
                 <input id="fileInput" type="file" accept="image/jpeg" class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100" />
-                <p class="text-xs text-gray-500 mt-2">Sólo <strong>JPG</strong> en tamaño exacto <strong>32×32 píxeles</strong>.</p>
+                <p class="text-xs text-gray-500 mt-2">JPG hasta 1000×1000 píxeles.</p>
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">Tarifa de publicación (ETH)</label>
-                <input id="costoArtista" type="number" step="0.0001" value="1" class="w-full border rounded-lg px-3 py-2" />
-                <p class="text-xs text-gray-500 mt-2">Ejemplo: 1 ETH para el propietario del contrato.</p>
+                <label class="block text-sm font-medium mb-1">Precio de publicación (ETH)</label>
+                <input type="number" value="1" class="w-full border rounded-lg px-3 py-2" disabled />
+                <p class="text-xs text-gray-500 mt-2">Precio fijo para publicar la obra.</p>
             </div>
-            </div>
+            <button id="btnPublicar" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg shadow">Publicar</button>
+        </section>
 
-            <div class="grid md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-sm font-medium mb-1">Dirección del contrato (referencia)</label>
-                <input id="fakeTokenAddress" type="text" placeholder="0x..." class="w-full border rounded-lg px-3 py-2" />
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Token ID (referencia)</label>
-                <input id="fakeTokenId" type="number" min="0" value="0" class="w-full border rounded-lg px-3 py-2" />
-            </div>
-            </div>
-
-            <div class="flex items-center gap-4">
-            <button id="btnAgregar" class="bg-gray-900 hover:bg-black text-white px-5 py-2.5 rounded-lg shadow">Publicar</button>
-            <div id="preview" class="w-16 h-16 rounded border border-gray-200 overflow-hidden flex items-center justify-center bg-gray-100 text-xs text-gray-400">Vista</div>
-            </div>
-        </div>
-        </div>
-
-        <!-- COMPRAR -->
-        <div id="page-comprar" class="page hidden">
-        <div class="bg-white shadow rounded-2xl p-6 space-y-6">
-            <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-semibold">Comprar imagen</h2>
-            <div class="text-sm text-gray-500">Toma la primera en cola</div>
-            </div>
-
-            <div class="flex flex-col items-center gap-5">
-            <div id="featuredWrap" class="w-72 h-72 rounded-2xl border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
-                <span class="text-sm text-gray-400">Sin imágenes en cola</span>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-4 w-full max-w-2xl">
-                <div>
-                <label class="block text-sm font-medium mb-1">Precio (ETH)</label>
-                <input id="costoCompra" type="number" step="0.0001" value="2" class="w-full border rounded-lg px-3 py-2" />
-                <p class="text-xs text-gray-500 mt-2">Ejemplo: 2 ETH. Reparto: 50% artista / 50% propietario.</p>
-                </div>
-                <div class="md:col-span-2 flex items-end">
-                <button id="btnComprar" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-lg shadow w-full">Confirmar compra</button>
-                </div>
-            </div>
-
-            <div id="recibo" class="hidden w-full max-w-2xl text-sm bg-gray-50 border border-gray-200 rounded-xl p-4"></div>
-            </div>
-        </div>
-        </div>
-
-    </section>
-
-    <!-- Sidebar / Cola -->
-    <aside class="lg:col-span-3">
-        <div class="bg-white shadow rounded-2xl p-4">
-        <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold">Cola de imágenes</h3>
-            <div class="flex items-center gap-3">
-            <span class="text-xs text-gray-500">Total: <strong id="queueCount">0</strong></span>
-            <button id="btnVaciar" class="text-xs text-red-600 hover:underline">Vaciar</button>
-            </div>
-        </div>
-        <div id="colaVacia" class="text-sm text-gray-500">No hay imágenes en cola.</div>
-        <ul id="listaCola" class="grid grid-cols-4 gap-2"></ul>
-        </div>
-    </aside>
     </div>
 </main>
 
-<footer class="px-4 md:px-8 py-6 border-t bg-white">
+<footer class="px-4 md:px-8 py-6 border-t bg-white mt-auto">
     <div class="max-w-7xl mx-auto text-xs text-gray-500 flex items-center justify-between">
-    <span>© 2025 DropNFT. Todos los derechos reservados.</span>
-    <span>Operación en red y pagos sujetos al contrato desplegado.</span>
+        <span>© 2025 DropNFT. Todos los derechos reservados.</span>
+        <span>Operación en red y pagos sujetos al contrato desplegado.</span>
     </div>
 </footer>
 
 <script>
-    // =========================
-    // Estado
-    // =========================
-    const OWNER_ADDRESS = "0xOWNER_CONTRATO";
-    let currentAccount = null;
+let currentAccount = null;
+let queue = [];
 
-    // Cola en memoria + persistencia
-    // item: { id, dataUrl, artist, tokenAddress, tokenId }
-    let queue = [];
-    try {
-    const saved = localStorage.getItem("nftQueue");
-    if (saved) queue = JSON.parse(saved);
-    } catch(_) {}
-
-    // =========================
-    // Utilidades
-    // =========================
-    const $ = (s) => document.querySelector(s);
-    const $$ = (s) => document.querySelectorAll(s);
-
-    function saveQueue() {
-    localStorage.setItem("nftQueue", JSON.stringify(queue));
-    }
-
-    function showBanner(text, type="success") {
-    const banner = $("#banner");
-    banner.classList.remove("hidden","bg-green-600","bg-red-600","bg-blue-600","bg-yellow-600");
+// Banner
+function showBanner(text, type="success") {
+    const banner = document.getElementById("banner");
+    banner.className = "px-4 py-3 text-white text-sm font-medium";
     if (type==="success") banner.classList.add("bg-green-600");
     if (type==="error")   banner.classList.add("bg-red-600");
     if (type==="info")    banner.classList.add("bg-blue-600");
     banner.textContent = text;
+    banner.classList.remove("hidden");
     setTimeout(()=>banner.classList.add("hidden"), 3500);
-    }
+}
 
-    function shorten(addr) {
-    if (!addr || addr.length < 10) return addr || "";
-    return addr.slice(0,6) + "..." + addr.slice(-4);
-    }
-
-    function renderQueueBadges() {
-    const count = queue.length;
-    $("#queueCount").textContent = String(count);
-    $("#badgeQueue").textContent = String(count);
-    }
-
-    function updateSidebar() {
-    const ul = $("#listaCola");
-    const empty = $("#colaVacia");
-    ul.innerHTML = "";
-
-    renderQueueBadges();
-
-    if (!queue.length) {
-        empty.classList.remove("hidden");
-        return;
-    }
-    empty.classList.add("hidden");
-
-    queue.forEach((item, idx) => {
-        const li = document.createElement("li");
-        li.className = "rounded overflow-hidden border border-gray-200";
-        li.title = `#${idx} • artista: ${shorten(item.artist)}`;
-        const img = document.createElement("img");
-        img.src = item.dataUrl;
-        img.alt = "thumbnail";
-        img.className = "w-full h-16 object-cover";
-        li.appendChild(img);
-        ul.appendChild(li);
-    });
-    }
-
-    function updateFeatured() {
-    const wrap = $("#featuredWrap");
-      if (!wrap) return; // sólo en página comprar
-    wrap.innerHTML = "";
-    if (!queue.length) {
-        wrap.innerHTML = '<span class="text-sm text-gray-400">Sin imágenes en cola</span>';
-        return;
-    }
-    const img = document.createElement("img");
-    img.src = queue[0].dataUrl;
-    img.alt = "Imagen destacada";
-    img.className = "w-full h-full object-contain";
-    wrap.appendChild(img);
-    }
-
-    function updateFeaturedHome() {
-    const wrap = $("#featuredWrapHome");
-    wrap.innerHTML = "";
-    if (!queue.length) {
-        wrap.innerHTML = '<span class="text-sm text-gray-400">No hay imágenes</span>';
-        return;
-    }
-    const img = document.createElement("img");
-    img.src = queue[0].dataUrl;
-    img.alt = "Imagen destacada";
-    img.className = "w-full h-full object-contain";
-    wrap.appendChild(img);
-    }
-
-    function switchPage(target) {
-    $$(".page").forEach(p => p.classList.add("hidden"));
-    $("#page-" + target).classList.remove("hidden");
-
-    $$(".tab").forEach(t => t.classList.remove("active","bg-purple-50","border-purple-300"));
-    const activeBtn = [...$$(".tab")].find(b => b.dataset.page === target);
-    if (activeBtn) activeBtn.classList.add("active","bg-purple-50","border-purple-300");
-
-    if (target === "comprar") updateFeatured();
-    if (target === "index")  updateFeaturedHome();
-    }
-
-    // =========================
-    // Conectar wallet
-    // =========================
-    $("#btnConnect").addEventListener("click", async () => {
+// Conectar wallet
+document.getElementById("btnConnect").addEventListener("click", async () => {
     if (window.ethereum) {
         try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        currentAccount = await signer.getAddress();
-        $("#account").textContent = "Conectado: " + shorten(currentAccount);
-        showBanner("Wallet conectada.", "success");
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            currentAccount = await signer.getAddress();
+            showBanner("Wallet conectada.", "success");
         } catch (e) {
-        showBanner("No se pudo conectar la wallet.", "error");
+            showBanner("No se pudo conectar la wallet.", "error");
         }
     } else {
         currentAccount = "0xLOCAL_" + Math.random().toString(16).slice(2, 6);
-        $("#account").textContent = "Modo local";
         showBanner("No se detectó wallet. Operando en modo local.", "info");
     }
-    });
+});
 
-    // CTA de inicio reutiliza botón del header
-    $("#ctaConnect")?.addEventListener("click", () => $("#btnConnect")?.click());
+// Mostrar sección de venta
+document.getElementById("btnVender").addEventListener("click", () => {
+    document.getElementById("sectionPrincipal").classList.add("hidden");
+    document.getElementById("sectionCargar").classList.remove("hidden");
+});
 
-    // =========================
-    // Validación de imagen: JPG 32×32
-    // =========================
-    const fileInput = $("#fileInput");
-    const preview   = $("#preview");
-    let lastValidDataURL = null;
-
-    fileInput?.addEventListener("change", () => {
+// Publicar imagen
+document.getElementById("btnPublicar").addEventListener("click", () => {
+    const fileInput = document.getElementById("fileInput");
     const file = fileInput.files?.[0];
-    lastValidDataURL = null;
-    if (preview) preview.innerHTML = "Vista";
-
-    if (!file) return;
-    if (file.type !== "image/jpeg") {
-        showBanner("El archivo debe ser JPG.", "error");
-        fileInput.value = "";
+    if (!file) {
+        showBanner("Subí un JPG válido.", "error");
         return;
     }
-
     const reader = new FileReader();
     reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-        if (img.width !== 32 || img.height !== 32) {
-            showBanner("La imagen debe ser exactamente 32×32 píxeles.", "error");
+            if (img.width > 1000 || img.height > 1000) {
+                showBanner("La imagen no puede superar 1000×1000 píxeles.", "error");
+                return;
+            }
+            // Agregar al final de la cola
+            queue.push({ dataUrl: reader.result });
+            updatePrincipal();
+            showBanner("Imagen publicada correctamente.", "success");
+            // Volver a card principal
+            document.getElementById("sectionCargar").classList.add("hidden");
+            document.getElementById("sectionPrincipal").classList.remove("hidden");
             fileInput.value = "";
-            return;
-        }
-        if (preview) {
-            preview.innerHTML = "";
-            img.className = "w-16 h-16 object-contain";
-            preview.appendChild(img);
-        }
-        lastValidDataURL = reader.result;
         };
         img.src = reader.result;
     };
     reader.readAsDataURL(file);
-    });
+});
 
-    // =========================
-    // Publicar (artista)
-    // =========================
-    $("#btnAgregar")?.addEventListener("click", () => {
-    if (!currentAccount) {
-        showBanner("Conectá la wallet primero.", "error");
-        return;
-    }
-    if (!lastValidDataURL) {
-        showBanner("Subí un JPG 32×32 válido.", "error");
-        return;
-    }
-
-    const costo = parseFloat($("#costoArtista").value || "0");
-    const tokenAddress = $("#fakeTokenAddress").value || "0x";
-    const tokenId = parseInt($("#fakeTokenId").value || "0", 10) || 0;
-
-      // Pago de publicación (simulado)
-    console.log(`[PUBLICACIÓN] Artista ${currentAccount} → Propietario ${OWNER_ADDRESS}: ${costo} ETH`);
-
-      // Encolar
-    const item = { id: Date.now(), dataUrl: lastValidDataURL, artist: currentAccount, tokenAddress, tokenId };
-    queue.push(item);
-    saveQueue();
-    updateSidebar();
-    updateFeatured();
-    updateFeaturedHome();
-
-      // Reset
-    if (fileInput) fileInput.value = "";
-    if (preview) { preview.innerHTML = "Vista"; }
-    lastValidDataURL = null;
-
-    showBanner("Publicación registrada. La imagen ya está en la cola.", "success");
-    });
-
-    // =========================
-    // Comprar (FIFO)
-    // =========================
-    $("#btnComprar")?.addEventListener("click", () => {
-    if (!currentAccount) {
-        showBanner("Conectá la wallet primero.", "error");
-        return;
-    }
+// Comprar pixel
+document.getElementById("btnComprar").addEventListener("click", () => {
     if (!queue.length) {
-        showBanner("No hay imágenes en la cola.", "error");
+        showBanner("No hay imágenes para comprar.", "error");
         return;
     }
+    alert("NFT agregado a tu wallet (simulado).");
+});
 
-    const price = parseFloat($("#costoCompra").value || "0");
-    if (price <= 0) {
-        showBanner("Ingresá un precio válido.", "error");
-        return;
+// Actualizar imagen destacada y miniaturas
+function updatePrincipal() {
+    const featuredWrap = document.getElementById("featuredWrap");
+    const listaCola = document.getElementById("listaCola");
+
+    if (queue.length) {
+        featuredWrap.innerHTML = '';
+        const img = document.createElement("img");
+        img.src = queue[0].dataUrl;
+        img.className = "w-full h-full object-contain";
+        featuredWrap.appendChild(img);
+    } else {
+        featuredWrap.innerHTML = '<span class="text-sm text-gray-400">Sin imágenes</span>';
     }
 
-      // Sacar el primero
-    const sold = queue.shift();
-    saveQueue();
-    updateSidebar();
-    updateFeatured();
-    updateFeaturedHome();
-
-      // Reparto (50/50)
-    const mitad = price / 2;
-    console.log(`[COMPRA] Comprador ${currentAccount} → Artista ${sold.artist}: ${mitad} ETH`);
-    console.log(`[COMPRA] Comprador ${currentAccount} → Propietario ${OWNER_ADDRESS}: ${mitad} ETH`);
-
-      // Recibo
-    const hash = "0x" + Math.random().toString(16).slice(2).padEnd(64, "0").slice(0, 64);
-    const now  = new Date();
-    const recibo = $("#recibo");
-    recibo.classList.remove("hidden");
-    recibo.innerHTML = `
-        <div class="font-semibold mb-1">Comprobante de compra</div>
-        <div class="grid md:grid-cols-2 gap-2 text-gray-700">
-        <div><span class="text-gray-500">Tx:</span> ${hash.slice(0, 12)}…</div>
-        <div><span class="text-gray-500">Fecha:</span> ${now.toLocaleString()}</div>
-        <div><span class="text-gray-500">Total:</span> ${price} ETH</div>
-        <div><span class="text-gray-500">Artista:</span> ${mitad} ETH → ${shorten(sold.artist)}</div>
-        <div class="md:col-span-2"><span class="text-gray-500">Propietario:</span> ${mitad} ETH → ${shorten(OWNER_ADDRESS)}</div>
-        </div>
-    `;
-
-      // Mensaje de éxito comercial
-    showBanner("Compra realizada con éxito. Gracias por tu preferencia.", "success");
+    listaCola.innerHTML = '';
+    queue.slice(1).forEach(item => {
+        const img = document.createElement("img");
+        img.src = item.dataUrl;
+        img.className = "w-12 h-12 object-cover rounded border border-gray-200";
+        listaCola.appendChild(img);
     });
-
-    // Vaciar cola
-    $("#btnVaciar")?.addEventListener("click", () => {
-    queue = [];
-    saveQueue();
-    updateSidebar();
-    updateFeatured();
-    updateFeaturedHome();
-    showBanner("Cola vaciada.", "info");
-    });
-
-    // Tabs
-    $$(".tab").forEach(btn => btn.addEventListener("click", () => switchPage(btn.dataset.page)));
-
-    // Inicio
-    updateSidebar();
-    updateFeatured();
-    updateFeaturedHome();
-    switchPage("index");
+}
 </script>
+
 </body>
 </html>
-
-<!-- Configuración
-- Cambia la variable `contractAddress` en `index.html` por la dirección de tu contrato desplegado.
-- Asegúrate de que el ABI en `index.html` coincida con tu contrato.-->
