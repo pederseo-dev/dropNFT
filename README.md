@@ -28,8 +28,11 @@ Esta es una **DApp simple** que permite a los usuarios agregar NFTs a una “má
 
 - La app utiliza **Tailwind CSS** mediante CDN para estilos rápidos y responsivos.
 
+URL: https://pederseo-dev.github.io/dropNFT
+
 ## Nota
 
 Esta app es **solo frontend**, todo el manejo de NFTs se hace a través del contrato inteligente en la blockchain. No hay backend ni almacenamiento propio.
 
 ---
+
